@@ -1,11 +1,13 @@
 /**
- * STILL WELL MED SPA - ARCHETYPE 2
- * Master Frontend Controller & Mobile-First Utilities
+ * STILL WELL MED SPA - WORLD-CLASS LUXURY SYSTEM
+ * Master Frontend Controller & Motion Choreography
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initMobileDrawer();
   initHeaderScroll();
+  initScrollProgressBar();
+  initScrollReveals();
   initBeforeAfterSliders();
   initFaqAccordions();
   initTouchRails();
@@ -53,6 +55,44 @@ function initHeaderScroll() {
       header.classList.remove('scrolled');
     }
   }, { passive: true });
+}
+
+/* Scroll Progress Bar at Top of Header (PeeSkin Pattern) */
+function initScrollProgressBar() {
+  const progressBar = document.querySelector('.scroll-progress-bar');
+  if (!progressBar) return;
+
+  window.addEventListener('scroll', () => {
+    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+    if (totalHeight <= 0) return;
+    const progress = (window.scrollY / totalHeight) * 100;
+    progressBar.style.width = `${progress}%`;
+  }, { passive: true });
+}
+
+/* Scroll-Triggered Reveal Choreography (IntersectionObserver) */
+function initScrollReveals() {
+  const reveals = document.querySelectorAll('[data-reveal]');
+  if (!reveals.length) return;
+
+  if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('data-seen');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, {
+      rootMargin: '0px 0px -40px 0px',
+      threshold: 0.08
+    });
+
+    reveals.forEach(el => observer.observe(el));
+  } else {
+    // Fallback for older browsers
+    reveals.forEach(el => el.classList.add('data-seen'));
+  }
 }
 
 /* Interactive Before / After Split Comparison Sliders */
@@ -153,7 +193,7 @@ window.showToast = function(message) {
 
   const toast = document.createElement('div');
   toast.className = 'toast';
-  toast.innerHTML = `<span>✓</span> <div>${message}</div>`;
+  toast.innerHTML = `<span>✓</span><span>${message}</span>`;
   container.appendChild(toast);
 
   requestAnimationFrame(() => {
@@ -162,6 +202,8 @@ window.showToast = function(message) {
 
   setTimeout(() => {
     toast.classList.remove('show');
-    setTimeout(() => toast.remove(), 300);
+    setTimeout(() => {
+      toast.remove();
+    }, 300);
   }, 4000);
 };

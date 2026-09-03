@@ -25,6 +25,7 @@
 
 <!-- Main Sticky Header -->
 <header class="site-header">
+  <div class="scroll-progress-bar"></div>
   <div class="container nav-container">
     <a href="index.html" class="brand-logo" aria-label="Still Well Med Spa Home">
       <span class="brand-name">STILL WELL</span>
@@ -34,7 +35,62 @@
     <!-- Desktop Navigation -->
     <nav class="nav-desktop" aria-label="Main Navigation">
       <a href="about.html" class="nav-link">Manifesto & Founder</a>
-      <a href="treatments.html" class="nav-link">Treatments</a>
+      
+        <!-- Treatments with Full-Width Mega Menu (Eden / PeeSkin Pattern) -->
+        <div class="nav-item-mega">
+          <a href="treatments.html" class="nav-link">
+            <span>Treatments</span>
+            <span style="font-size: 0.7rem; opacity: 0.7;">▾</span>
+          </a>
+          <div class="dropdown-mega">
+            <div class="mega-top-bar">
+              <span class="mega-top-tag">Gold-Standard FDA Cleared Modalities & Published Rates</span>
+              <a href="treatments.html" style="color: var(--gold-richardson); font-size: 0.78rem; font-weight: 600;">View Complete 5-Department Menu →</a>
+            </div>
+
+            <div class="mega-grid">
+              <a href="treatments.html?dept=lasers" class="mega-card">
+                <span class="mega-card-dept">01 · Laser Surgery</span>
+                <span class="mega-card-title">Cartessa Tetra Pro CO2</span>
+                <span class="mega-card-price">From ,200 · 10,600nm Deka Pulse</span>
+              </a>
+              <a href="treatments.html?dept=lasers" class="mega-card">
+                <span class="mega-card-dept">02 · Zero Downtime</span>
+                <span class="mega-card-title">Tetra Pro CoolPeel</span>
+                <span class="mega-card-price">$650 · Sub-microsecond H-Pulse</span>
+              </a>
+              <a href="treatments.html?dept=lifting" class="mega-card">
+                <span class="mega-card-dept">03 · Ultrasound Lift</span>
+                <span class="mega-card-title">Sofwave Non-Surgical</span>
+                <span class="mega-card-price">$2,400 · Full Face & Neck Remodeling</span>
+              </a>
+              <a href="treatments.html?dept=lasers" class="mega-card">
+                <span class="mega-card-dept">04 · Hybrid Laser</span>
+                <span class="mega-card-title">Sciton MOXI & BBL Hero</span>
+                <span class="mega-card-price">From $550 · 1927nm + Photothermal</span>
+              </a>
+              <a href="treatments.html?dept=injectables" class="mega-card">
+                <span class="mega-card-dept">05 · Biostimulation</span>
+                <span class="mega-card-title">Sculptra Facial Architecture</span>
+                <span class="mega-card-price">$850/vial · Type 1 Collagen Induction</span>
+              </a>
+              <a href="treatments.html?dept=wellness" class="mega-card">
+                <span class="mega-card-dept">06 · Pain Medicine</span>
+                <span class="mega-card-title">Trigger Point Myofascial</span>
+                <span class="mega-card-price">$275 · MD Injected Neck & Back</span>
+              </a>
+            </div>
+
+            <div class="mega-bottom-bar">
+              <span>Unsure which clinical modality fits your timeline?</span>
+              <div style="display: flex; gap: 1.25rem;">
+                <a href="concerns.html" style="color: var(--gold-richardson); font-weight: 600;">Take 3-Step Intake Quiz →</a>
+                <a href="results.html" style="color: #CBD5E1;">Clinical Results Gallery →</a>
+                <a href="book.html" style="color: var(--laser-blue); font-weight: 700;">In-House Booking Wizard →</a>
+              </div>
+            </div>
+          </div>
+        </div>
       <a href="concerns.html" class="nav-link">Concern Finder</a>
       <a href="results.html" class="nav-link active">Clinical Results</a>
       <a href="pricing.html" class="nav-link">Published Rates</a>
@@ -113,7 +169,7 @@
 
 <main id="main-content">
 
-  <section class="section section-frost">
+  <section class="section section-frost" data-reveal>
     <div class="container text-center" style="max-width: 800px;">
       <div class="eyebrow">Verified Clinical Outcomes</div>
       <h1 class="hero-title" style="margin-bottom: 1rem;">Clinical Results & Transformation</h1>
@@ -123,7 +179,7 @@
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" data-reveal>
     <div class="container">
       <div class="grid-fluid-2" style="gap: 3rem;">
         <!-- Slider 1 -->
@@ -170,7 +226,7 @@
   </section>
 
   <!-- Clinical Standards & Ethics -->
-  <section class="section section-frost">
+  <section class="section section-frost" data-reveal>
     <div class="container text-center" style="max-width: 700px;">
       <div class="eyebrow">Our Clinical Standard</div>
       <h2 class="section-title" style="margin-bottom: 1rem;">Zero Filtering. Zero Retouching.</h2>
