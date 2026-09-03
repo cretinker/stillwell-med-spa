@@ -1,17 +1,29 @@
 /**
- * STILL WELL MED SPA - WORLD-CLASS LUXURY SYSTEM
- * Master Frontend Controller & Motion Choreography
+ * STILL WELL MED SPA - 2026 LUXURY FRONTEND CONTROLLER
+ * Motion Choreography, Island Navigation & Interactive Hardware
  */
 
 document.addEventListener('DOMContentLoaded', () => {
+  initIslandNav();
   initMobileDrawer();
-  initHeaderScroll();
-  initScrollProgressBar();
   initScrollReveals();
   initBeforeAfterSliders();
-  initFaqAccordions();
-  initTouchRails();
+  initAccordions();
 });
+
+/* Fluid Island Nav Scroll Elevation */
+function initIslandNav() {
+  const nav = document.querySelector('.fluid-island-nav');
+  if (!nav) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 30) {
+      nav.classList.add('scrolled');
+    } else {
+      nav.classList.remove('scrolled');
+    }
+  }, { passive: true });
+}
 
 /* Mobile Fullscreen Drawer Navigation */
 function initMobileDrawer() {
@@ -34,43 +46,13 @@ function initMobileDrawer() {
   if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
   if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
 
-  // Close when clicking internal links
   const drawerLinks = drawer.querySelectorAll('a');
   drawerLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      closeDrawer();
-    });
+    link.addEventListener('click', closeDrawer);
   });
 }
 
-/* Sticky Header Scroll Elevation */
-function initHeaderScroll() {
-  const header = document.querySelector('.site-header');
-  if (!header) return;
-
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 20) {
-      header.classList.add('scrolled');
-    } else {
-      header.classList.remove('scrolled');
-    }
-  }, { passive: true });
-}
-
-/* Scroll Progress Bar at Top of Header (PeeSkin Pattern) */
-function initScrollProgressBar() {
-  const progressBar = document.querySelector('.scroll-progress-bar');
-  if (!progressBar) return;
-
-  window.addEventListener('scroll', () => {
-    const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-    if (totalHeight <= 0) return;
-    const progress = (window.scrollY / totalHeight) * 100;
-    progressBar.style.width = `${progress}%`;
-  }, { passive: true });
-}
-
-/* Scroll-Triggered Reveal Choreography (IntersectionObserver) */
+/* Scroll-Triggered Reveal Choreography */
 function initScrollReveals() {
   const reveals = document.querySelectorAll('[data-reveal]');
   if (!reveals.length) return;
@@ -84,18 +66,17 @@ function initScrollReveals() {
         }
       });
     }, {
-      rootMargin: '0px 0px -40px 0px',
+      rootMargin: '0px 0px -50px 0px',
       threshold: 0.08
     });
 
     reveals.forEach(el => observer.observe(el));
   } else {
-    // Fallback for older browsers
     reveals.forEach(el => el.classList.add('data-seen'));
   }
 }
 
-/* Interactive Before / After Split Comparison Sliders */
+/* Interactive Before / After Split Comparison Slider */
 function initBeforeAfterSliders() {
   const sliders = document.querySelectorAll('.ba-slider-container');
 
@@ -134,8 +115,8 @@ function initBeforeAfterSliders() {
   });
 }
 
-/* FAQ Accordion Component */
-function initFaqAccordions() {
+/* Accordion Component */
+function initAccordions() {
   const faqItems = document.querySelectorAll('.faq-item');
 
   faqItems.forEach(item => {
@@ -144,66 +125,8 @@ function initFaqAccordions() {
 
     questionBtn.addEventListener('click', () => {
       const isOpen = item.classList.contains('active');
-
-      // Close siblings if desired
       faqItems.forEach(sib => sib.classList.remove('active'));
-
-      if (!isOpen) {
-        item.classList.add('active');
-      }
+      if (!isOpen) item.classList.add('active');
     });
   });
 }
-
-/* Touch Momentum Rails Drag Support */
-function initTouchRails() {
-  const rails = document.querySelectorAll('.touch-rail');
-  rails.forEach(rail => {
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    rail.addEventListener('mousedown', (e) => {
-      isDown = true;
-      startX = e.pageX - rail.offsetLeft;
-      scrollLeft = rail.scrollLeft;
-    });
-
-    rail.addEventListener('mouseleave', () => { isDown = false; });
-    rail.addEventListener('mouseup', () => { isDown = false; });
-
-    rail.addEventListener('mousemove', (e) => {
-      if (!isDown) return;
-      e.preventDefault();
-      const x = e.pageX - rail.offsetLeft;
-      const walk = (x - startX) * 1.5;
-      rail.scrollLeft = scrollLeft - walk;
-    });
-  });
-}
-
-/* Global Toast Helper */
-window.showToast = function(message) {
-  let container = document.querySelector('.toast-container');
-  if (!container) {
-    container = document.createElement('div');
-    container.className = 'toast-container';
-    document.body.appendChild(container);
-  }
-
-  const toast = document.createElement('div');
-  toast.className = 'toast';
-  toast.innerHTML = `<span>✓</span><span>${message}</span>`;
-  container.appendChild(toast);
-
-  requestAnimationFrame(() => {
-    toast.classList.add('show');
-  });
-
-  setTimeout(() => {
-    toast.classList.remove('show');
-    setTimeout(() => {
-      toast.remove();
-    }, 300);
-  }, 4000);
-};
