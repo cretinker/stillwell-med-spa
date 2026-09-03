@@ -1,58 +1,67 @@
 /**
- * STILL WELL MED SPA - 2026 LUXURY FRONTEND CONTROLLER
- * Motion Choreography, Island Navigation & Interactive Hardware
+ * STILL WELL MED SPA & LONGEVITY - MASTER FRONTEND CONTROLLER
+ * Robust, zero-failure interactive systems for Luminous Luxury Architecture
  */
 
 document.addEventListener('DOMContentLoaded', () => {
   initIslandNav();
   initMobileDrawer();
   initScrollReveals();
-  initBeforeAfterSliders();
+  initBeforeAfterSlider();
   initAccordions();
 });
 
-/* Fluid Island Nav Scroll Elevation */
+/* 1. Fluid Island Navigation Scroll Elevation */
 function initIslandNav() {
-  const nav = document.querySelector('.fluid-island-nav');
+  const nav = document.getElementById('islandNav') || document.querySelector('.fluid-island-nav');
   if (!nav) return;
 
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 30) {
-      nav.classList.add('scrolled');
+  const handleScroll = () => {
+    if (window.scrollY > 20) {
+      nav.classList.add('nav-elevated');
     } else {
-      nav.classList.remove('scrolled');
+      nav.classList.remove('nav-elevated');
     }
-  }, { passive: true });
+  };
+
+  window.addEventListener('scroll', handleScroll, { passive: true });
+  handleScroll();
 }
 
-/* Mobile Fullscreen Drawer Navigation */
+/* 2. Mobile Drawer Open/Close Controller */
 function initMobileDrawer() {
-  const toggleBtn = document.querySelector('[data-drawer-toggle]');
-  const closeBtn = document.querySelector('[data-drawer-close]');
-  const drawer = document.querySelector('[data-mobile-drawer]');
+  const openBtn = document.getElementById('mobileDrawerOpen') || document.querySelector('.mobile-nav-toggle');
+  const closeBtn = document.getElementById('mobileDrawerClose');
+  const drawer = document.getElementById('mobileDrawer') || document.querySelector('.mobile-drawer');
 
   if (!drawer) return;
 
-  function openDrawer() {
-    drawer.classList.add('open');
+  function open() {
+    drawer.classList.add('is-open');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeDrawer() {
-    drawer.classList.remove('open');
+  function close() {
+    drawer.classList.remove('is-open');
     document.body.style.overflow = '';
   }
 
-  if (toggleBtn) toggleBtn.addEventListener('click', openDrawer);
-  if (closeBtn) closeBtn.addEventListener('click', closeDrawer);
+  if (openBtn) openBtn.addEventListener('click', open);
+  if (closeBtn) closeBtn.addEventListener('click', close);
 
-  const drawerLinks = drawer.querySelectorAll('a');
-  drawerLinks.forEach(link => {
-    link.addEventListener('click', closeDrawer);
+  // Close on link click
+  const links = drawer.querySelectorAll('a');
+  links.forEach(a => a.addEventListener('click', close));
+
+  // Close on Escape key
+  window.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && drawer.classList.contains('is-open')) {
+      close();
+    }
   });
 }
 
-/* Scroll-Triggered Reveal Choreography */
+/* 3. Scroll-Triggered Reveal Animation (Resilient Progressive Enhancement) */
 function initScrollReveals() {
   const reveals = document.querySelectorAll('[data-reveal]');
   if (!reveals.length) return;
@@ -61,72 +70,99 @@ function initScrollReveals() {
     const observer = new IntersectionObserver((entries, obs) => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
           entry.target.classList.add('data-seen');
           obs.unobserve(entry.target);
         }
       });
     }, {
-      rootMargin: '0px 0px -50px 0px',
-      threshold: 0.08
+      rootMargin: '0px 0px -40px 0px',
+      threshold: 0.05
     });
 
     reveals.forEach(el => observer.observe(el));
   } else {
-    reveals.forEach(el => el.classList.add('data-seen'));
+    // Fallback if observer not supported
+    reveals.forEach(el => {
+      el.classList.add('is-revealed');
+      el.classList.add('data-seen');
+    });
   }
 }
 
-/* Interactive Before / After Split Comparison Slider */
-function initBeforeAfterSliders() {
-  const sliders = document.querySelectorAll('.ba-slider-container');
+/* 4. Interactive Before/After Split Comparison Slider */
+function initBeforeAfterSlider() {
+  const slider = document.getElementById('comparisonSlider');
+  const beforeWrap = document.getElementById('sliderBeforeWrap');
+  const knob = document.getElementById('sliderKnob');
 
-  sliders.forEach(container => {
-    const afterLayer = container.querySelector('.ba-after');
-    const handle = container.querySelector('.ba-handle');
-    if (!afterLayer || !handle) return;
+  if (!slider || !beforeWrap || !knob) return;
 
-    let isDragging = false;
+  let isDragging = false;
 
-    function updateSlider(clientX) {
-      const rect = container.getBoundingClientRect();
-      let offsetX = clientX - rect.left;
-      if (offsetX < 0) offsetX = 0;
-      if (offsetX > rect.width) offsetX = rect.width;
+  function setSliderPosition(clientX) {
+    const rect = slider.getBoundingClientRect();
+    let x = clientX - rect.left;
+    if (x < 0) x = 0;
+    if (x > rect.width) x = rect.width;
 
-      const percentage = (offsetX / rect.width) * 100;
-      afterLayer.style.width = `${percentage}%`;
-      handle.style.left = `${percentage}%`;
-    }
+    const percent = (x / rect.width) * 100;
+    beforeWrap.style.width = `${percent}%`;
+    knob.style.left = `${percent}%`;
+  }
 
-    handle.addEventListener('mousedown', () => { isDragging = true; });
-    window.addEventListener('mouseup', () => { isDragging = false; });
-    window.addEventListener('mousemove', (e) => {
-      if (!isDragging) return;
-      updateSlider(e.clientX);
-    });
-
-    // Touch support for mobile phones
-    handle.addEventListener('touchstart', () => { isDragging = true; }, { passive: true });
-    window.addEventListener('touchend', () => { isDragging = false; });
-    window.addEventListener('touchmove', (e) => {
-      if (!isDragging || !e.touches[0]) return;
-      updateSlider(e.touches[0].clientX);
-    }, { passive: true });
+  // Mouse drag handlers
+  knob.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    e.preventDefault();
   });
+
+  slider.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    setSliderPosition(e.clientX);
+  });
+
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
+
+  window.addEventListener('mousemove', (e) => {
+    if (!isDragging) return;
+    setSliderPosition(e.clientX);
+  });
+
+  // Touch drag handlers
+  knob.addEventListener('touchstart', (e) => {
+    isDragging = true;
+  }, { passive: true });
+
+  slider.addEventListener('touchstart', (e) => {
+    if (e.touches && e.touches[0]) {
+      setSliderPosition(e.touches[0].clientX);
+    }
+  }, { passive: true });
+
+  window.addEventListener('touchend', () => {
+    isDragging = false;
+  });
+
+  window.addEventListener('touchmove', (e) => {
+    if (!isDragging || !e.touches || !e.touches[0]) return;
+    setSliderPosition(e.touches[0].clientX);
+  }, { passive: true });
 }
 
-/* Accordion Component */
+/* 5. Accordions (for FAQ / Treatments) */
 function initAccordions() {
-  const faqItems = document.querySelectorAll('.faq-item');
+  const items = document.querySelectorAll('.faq-item, .accordion-item');
+  items.forEach(item => {
+    const trigger = item.querySelector('.faq-question, .accordion-trigger');
+    if (!trigger) return;
 
-  faqItems.forEach(item => {
-    const questionBtn = item.querySelector('.faq-question');
-    if (!questionBtn) return;
-
-    questionBtn.addEventListener('click', () => {
-      const isOpen = item.classList.contains('active');
-      faqItems.forEach(sib => sib.classList.remove('active'));
-      if (!isOpen) item.classList.add('active');
+    trigger.addEventListener('click', () => {
+      const active = item.classList.contains('active');
+      items.forEach(sib => sib.classList.remove('active'));
+      if (!active) item.classList.add('active');
     });
   });
 }
