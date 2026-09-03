@@ -1,26 +1,27 @@
 /**
  * STILL WELL MED SPA & LONGEVITY - MASTER FRONTEND CONTROLLER
- * Robust, zero-failure interactive systems for Luminous Luxury Architecture
+ * Ultra-High Polish Interaction Engine (60fps Hardware Acceleration)
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  initIslandNav();
+  initSiteHeader();
   initMobileDrawer();
-  initScrollReveals();
+  initConcernMatrix();
   initBeforeAfterSlider();
+  initScrollReveals();
   initAccordions();
 });
 
-/* 1. Fluid Island Navigation Scroll Elevation */
-function initIslandNav() {
-  const nav = document.getElementById('islandNav') || document.querySelector('.fluid-island-nav');
-  if (!nav) return;
+/* 1. Grand Architectural Header Scroll Elevation */
+function initSiteHeader() {
+  const header = document.getElementById('siteHeader') || document.querySelector('.site-header');
+  if (!header) return;
 
   const handleScroll = () => {
     if (window.scrollY > 20) {
-      nav.classList.add('nav-elevated');
+      header.classList.add('scrolled');
     } else {
-      nav.classList.remove('nav-elevated');
+      header.classList.remove('scrolled');
     }
   };
 
@@ -61,7 +62,78 @@ function initMobileDrawer() {
   });
 }
 
-/* 3. Scroll-Triggered Reveal Animation (Resilient Progressive Enhancement) */
+/* 3. Interactive Diagnostic Concern Matrix Tab Switcher */
+function initConcernMatrix() {
+  const tabs = document.querySelectorAll('.matrix-tab-btn');
+  const panels = document.querySelectorAll('.matrix-panel');
+  if (!tabs.length || !panels.length) return;
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      const targetId = tab.getAttribute('data-target');
+      if (!targetId) return;
+
+      tabs.forEach(t => t.classList.remove('active'));
+      panels.forEach(p => p.classList.remove('active'));
+
+      tab.classList.add('active');
+      const targetPanel = document.getElementById(targetId);
+      if (targetPanel) {
+        targetPanel.classList.add('active');
+      }
+    });
+  });
+}
+
+/* 4. Interactive Before/After Split Comparison Slider */
+function initBeforeAfterSlider() {
+  const slider = document.getElementById('comparisonSlider');
+  const beforeWrap = document.getElementById('sliderBeforeWrap');
+  const knob = document.getElementById('sliderKnob');
+
+  if (!slider || !beforeWrap || !knob) return;
+
+  let isDragging = false;
+
+  function updateSlider(clientX) {
+    const rect = slider.getBoundingClientRect();
+    let x = clientX - rect.left;
+    x = Math.max(0, Math.min(x, rect.width));
+    const percent = (x / rect.width) * 100;
+
+    beforeWrap.style.width = percent + '%';
+    knob.style.left = percent + '%';
+  }
+
+  function onPointerDown(e) {
+    isDragging = true;
+    updateSlider(e.clientX || (e.touches && e.touches[0].clientX));
+  }
+
+  function onPointerMove(e) {
+    if (!isDragging) return;
+    const clientX = e.clientX || (e.touches && e.touches[0].clientX);
+    if (clientX !== undefined) {
+      updateSlider(clientX);
+    }
+  }
+
+  function onPointerUp() {
+    isDragging = false;
+  }
+
+  // Mouse events
+  slider.addEventListener('mousedown', onPointerDown);
+  window.addEventListener('mousemove', onPointerMove);
+  window.addEventListener('mouseup', onPointerUp);
+
+  // Touch events
+  slider.addEventListener('touchstart', onPointerDown, { passive: true });
+  window.addEventListener('touchmove', onPointerMove, { passive: true });
+  window.addEventListener('touchend', onPointerUp);
+}
+
+/* 5. Scroll-Triggered Reveal Animation */
 function initScrollReveals() {
   const reveals = document.querySelectorAll('[data-reveal]');
   if (!reveals.length) return;
@@ -82,7 +154,6 @@ function initScrollReveals() {
 
     reveals.forEach(el => observer.observe(el));
   } else {
-    // Fallback if observer not supported
     reveals.forEach(el => {
       el.classList.add('is-revealed');
       el.classList.add('data-seen');
@@ -90,79 +161,15 @@ function initScrollReveals() {
   }
 }
 
-/* 4. Interactive Before/After Split Comparison Slider */
-function initBeforeAfterSlider() {
-  const slider = document.getElementById('comparisonSlider');
-  const beforeWrap = document.getElementById('sliderBeforeWrap');
-  const knob = document.getElementById('sliderKnob');
-
-  if (!slider || !beforeWrap || !knob) return;
-
-  let isDragging = false;
-
-  function setSliderPosition(clientX) {
-    const rect = slider.getBoundingClientRect();
-    let x = clientX - rect.left;
-    if (x < 0) x = 0;
-    if (x > rect.width) x = rect.width;
-
-    const percent = (x / rect.width) * 100;
-    beforeWrap.style.width = `${percent}%`;
-    knob.style.left = `${percent}%`;
-  }
-
-  // Mouse drag handlers
-  knob.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    e.preventDefault();
-  });
-
-  slider.addEventListener('mousedown', (e) => {
-    isDragging = true;
-    setSliderPosition(e.clientX);
-  });
-
-  window.addEventListener('mouseup', () => {
-    isDragging = false;
-  });
-
-  window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    setSliderPosition(e.clientX);
-  });
-
-  // Touch drag handlers
-  knob.addEventListener('touchstart', (e) => {
-    isDragging = true;
-  }, { passive: true });
-
-  slider.addEventListener('touchstart', (e) => {
-    if (e.touches && e.touches[0]) {
-      setSliderPosition(e.touches[0].clientX);
-    }
-  }, { passive: true });
-
-  window.addEventListener('touchend', () => {
-    isDragging = false;
-  });
-
-  window.addEventListener('touchmove', (e) => {
-    if (!isDragging || !e.touches || !e.touches[0]) return;
-    setSliderPosition(e.touches[0].clientX);
-  }, { passive: true });
-}
-
-/* 5. Accordions (for FAQ / Treatments) */
+/* 6. Accordions */
 function initAccordions() {
-  const items = document.querySelectorAll('.faq-item, .accordion-item');
-  items.forEach(item => {
-    const trigger = item.querySelector('.faq-question, .accordion-trigger');
-    if (!trigger) return;
-
-    trigger.addEventListener('click', () => {
-      const active = item.classList.contains('active');
-      items.forEach(sib => sib.classList.remove('active'));
-      if (!active) item.classList.add('active');
+  const accordionHeaders = document.querySelectorAll('.accordion-header');
+  accordionHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      const item = header.closest('.accordion-item');
+      if (item) {
+        item.classList.toggle('is-open');
+      }
     });
   });
 }
