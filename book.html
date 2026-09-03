@@ -64,15 +64,7 @@
 </nav>
 
 <!-- Fullscreen Mobile Drawer -->
-<div class="mobile-drawer" data-mobile-drawer>
-  <div class="drawer-header">
-    <div class="brand-mark">
-      <div class="brand-glyph">S</div>
-      <div class="brand-titles">
-        <span class="title-main">STILL WELL</span>
-        <span class="title-sub">Staten Island, NY</span>
-      </div>
-    </div>
+
     <button type="button" class="drawer-close" data-drawer-close aria-label="Close Menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
         <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -110,21 +102,7 @@
 </div>
 
 <!-- Persistent Mobile Bottom Dock (Obsidian Luxury) -->
-<div class="mobile-action-dock" aria-label="Quick Navigation">
-  <a href="book.html" class="dock-btn-main">
-    <span>Book Protocol</span>
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <line x1="7" y1="17" x2="17" y2="7"></line>
-      <polyline points="7 7 17 7 17 17"></polyline>
-    </svg>
-  </a>
-  <a href="https://wa.me/17184486373?text=Hello%20Still%20Well%20Med%20Spa,%20I%20would%20like%20to%20inquire%20about%20a%20treatment." class="dock-btn-wa" target="_blank" rel="noopener">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-    </svg>
-    <span>Concierge</span>
-  </a>
-</div>
+
 
 
 
@@ -443,5 +421,17 @@
 
 <script src="js/main.js"></script>
 <script src="js/booking.js"></script>
+
+  <div class="mobile-action-dock" role="navigation" aria-label="Mobile Quick Actions">
+    <a href="book.html" class="mobile-dock-btn dock-btn-primary">
+      <span>Book Protocol</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+    </a>
+    <a href="https://wa.me/17184486373?text=Hello%20Still%20Well%20Med%20Spa,%20I%20would%20like%20to%20inquire%20about%20a%20VIP%20consultation." 
+       class="mobile-dock-btn dock-btn-secondary" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      <span>WhatsApp</span>
+    </a>
+  </div>
 </body>
 </html>
